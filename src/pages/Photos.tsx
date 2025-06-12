@@ -64,12 +64,12 @@ const Photos: React.FC<PhotosProps> = ({ onViewArticle }) => {
   };
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+    <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         
         {/* ページヘッダー */}
         <div className="p-4">
-          <h1 className="text-[32px] font-bold text-[#0d141c] mb-2">
+          <h1 className="text-[24px] md:text-[32px] font-bold text-[#0d141c] mb-2">
             写真
           </h1>
           <p className="text-[#49739c] text-sm">
@@ -78,7 +78,7 @@ const Photos: React.FC<PhotosProps> = ({ onViewArticle }) => {
         </div>
 
         {/* 統計情報 */}
-        <div className="grid grid-cols-3 gap-4 p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4">
           <div className="bg-white rounded-lg p-4 border border-[#e7edf4]">
             <div className="text-2xl font-bold text-[#0d141c]">{articles.length}</div>
             <div className="text-sm text-[#49739c]">総記事数</div>

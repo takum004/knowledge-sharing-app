@@ -115,12 +115,12 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ userId, onViewArticle }) 
   };
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+    <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         
         {/* ページヘッダー */}
         <div className="p-4">
-          <h1 className="text-[32px] font-bold text-[#0d141c] mb-2">
+          <h1 className="text-[24px] md:text-[32px] font-bold text-[#0d141c] mb-2">
             記事を検索
           </h1>
           <p className="text-[#49739c] text-sm">
@@ -129,27 +129,27 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ userId, onViewArticle }) 
         </div>
 
         {/* 検索フォーム */}
-        <div className="bg-white rounded-lg border border-[#e7edf4] p-6 mx-4 mb-6">
-          <div className="flex items-center gap-4 mb-4">
+        <div className="bg-white rounded-lg border border-[#e7edf4] p-4 md:p-6 mx-4 mb-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-4">
             <div className="flex-1">
             <input
               type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="キーワードを入力してください（タイトル、内容、著者名で検索）"
-                className="w-full px-4 py-3 border border-[#e7edf4] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-[#0d141c]"
+                placeholder="キーワードで検索"
+                className="w-full px-3 md:px-4 py-3 border border-[#e7edf4] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-[#0d141c] text-sm md:text-base"
               />
             </div>
             <button
               onClick={resetFilters}
-              className="px-6 py-3 border border-[#e7edf4] text-[#49739c] rounded-lg hover:bg-[#f8fafc] transition-colors"
+              className="px-4 md:px-6 py-3 border border-[#e7edf4] text-[#49739c] rounded-lg hover:bg-[#f8fafc] transition-colors text-sm md:text-base whitespace-nowrap"
             >
-              フィルターをリセット
+              リセット
             </button>
         </div>
 
         {/* フィルター */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             
             {/* カテゴリフィルター */}
             <div>

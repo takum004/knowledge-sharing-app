@@ -164,7 +164,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ articleId = 1, userId, on
   // ローディング状態
   if (loading) {
     return (
-      <div className="px-40 flex flex-1 justify-center py-5">
+      <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
         <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-[#49739c]">記事を読み込み中...</div>
@@ -177,7 +177,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ articleId = 1, userId, on
   // エラー状態
   if (error || !article) {
     return (
-      <div className="px-40 flex flex-1 justify-center py-5">
+      <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
         <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
           {onBack && (
             <div className="px-4 py-2">
@@ -211,111 +211,88 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ articleId = 1, userId, on
   }
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
-      <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
+    <div className="min-h-screen w-full overflow-x-hidden">
+      <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
+        <div className="layout-content-container flex flex-col max-w-[960px] flex-1 w-full">
         
-        {/* 戻るボタン */}
-        {onBack && (
-          <div className="px-4 py-2">
-            <button 
-              onClick={onBack}
-              className="flex items-center gap-2 text-[#49739c] hover:text-[#0d141c] transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
-              </svg>
-              戻る
-            </button>
+          {/* 戻るボタン */}
+          {onBack && (
+            <div className="py-2">
+              <button 
+                onClick={onBack}
+                className="flex items-center gap-2 text-[#49739c] hover:text-[#0d141c] transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                </svg>
+                戻る
+              </button>
+            </div>
+          )}
+        
+          {/* 記事ヘッダー */}
+          <div className="article-header w-full">
+            <h1 className="text-[#0d141c] tracking-light text-[18px] md:text-[28px] font-bold leading-tight text-left pb-3 pt-5 break-words">
+              {article.title}
+            </h1>
+            <div className="flex flex-col gap-2 pb-3 pt-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-[#49739c] text-sm font-normal leading-normal">
+                  {article.publishedAt}
+                </p>
+                <span className="inline-block bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
+                  {article.category}
+                </span>
+              </div>
+              {article.author && (
+                <p className="text-[#49739c] text-sm font-normal leading-normal">
+                  著者: {article.author}
+                </p>
+              )}
+            </div>
+            
+            {/* 記事説明 */}
+            {article.description && (
+              <div className="pb-4">
+                <p className="text-[#49739c] text-sm md:text-base leading-normal break-words">
+                  {article.description}
+                </p>
+              </div>
+            )}
           </div>
-        )}
         
-        {/* 記事ヘッダー */}
-        <div className="article-header">
-          <h1 className="text-[#0d141c] tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">
-            {article.title}
-          </h1>
-          <div className="flex items-center gap-4 px-4 pb-3 pt-1">
-            <p className="text-[#49739c] text-sm font-normal leading-normal">
-              {article.publishedAt}
-            </p>
-            <span className="inline-block bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
-              {article.category}
-            </span>
-            {article.author && (
-              <p className="text-[#49739c] text-sm font-normal leading-normal">
-                著者: {article.author}
+          {/* 記事メイン画像 */}
+          <div className="w-full bg-slate-50 py-3">
+            <div className="w-full overflow-hidden bg-slate-50 aspect-[4/3] md:aspect-[3/2]">
+              <div 
+                className="w-full h-full bg-center bg-no-repeat bg-cover rounded-lg"
+                style={{
+                  backgroundImage: `url("${article.imageUrl}")`
+                }}
+              ></div>
+            </div>
+          </div>
+        
+          {/* 記事本文 */}
+          <div className="article-content py-4 w-full">
+            {article.content ? (
+              <div 
+                className="backlog-preview overflow-hidden break-words word-wrap w-full"
+                dangerouslySetInnerHTML={{ __html: formatContent(article.content) }}
+              />
+            ) : (
+              <p className="text-[#49739c] text-sm md:text-base leading-normal">
+                記事の本文がありません。
               </p>
             )}
           </div>
-          
-          {/* 記事説明 */}
-          {article.description && (
-            <div className="px-4 pb-4">
-              <p className="text-[#49739c] text-base leading-normal">
-                {article.description}
-              </p>
-            </div>
-          )}
-        </div>
         
-        {/* 記事メイン画像 */}
-        <div className="flex w-full grow bg-slate-50 py-3">
-          <div className="w-full gap-1 overflow-hidden bg-slate-50 aspect-[3/2] flex">
-            <div 
-              className="w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-lg flex-1"
-              style={{
-                backgroundImage: `url("${article.imageUrl}")`
-              }}
-            ></div>
-          </div>
-        </div>
-        
-        {/* 記事本文 */}
-        <div className="article-content py-4">
-          {article.content ? (
-            <div 
-              className="backlog-preview px-4"
-              dangerouslySetInnerHTML={{ __html: formatContent(article.content) }}
-            />
-          ) : (
-            <p className="text-[#49739c] text-base leading-normal px-4">
-              記事の本文がありません。
-            </p>
-          )}
-        </div>
-        
-        {/* 記事アクション */}
-        <div className="flex items-center justify-between px-4 py-6 border-t border-[#e7edf4]">
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={toggleLike}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                isLiked 
-                  ? 'bg-red-500 text-white' 
-                  : 'bg-[#e7edf4] hover:bg-red-500 hover:text-white'
-              }`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                <path d={isLiked 
-                  ? "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32Z"
-                  : "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.69,146.26,196.16,128,206.8Z"
-                }></path>
-              </svg>
-              いいね ({likeCount})
-            </button>
-            
-            <button 
-              onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#e7edf4] hover:bg-primary hover:text-white transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M237.66,117.66l-80,80A8,8,0,0,1,144,192V152H64a8,8,0,0,1,0-16h80V96a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,237.66,117.66Z"></path>
-              </svg>
-              シェア
-            </button>
-            
+          {/* 記事アクション */}
+          <div className="border-t border-[#e7edf4] py-6 w-full">
+          {/* モバイルレイアウト */}
+          <div className="block lg:hidden space-y-4">
             {/* 統計情報 */}
-            <div className="flex items-center gap-4 text-sm text-[#49739c]">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-[#49739c]">
               <div className="flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
                   <path d="M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"></path>
@@ -327,7 +304,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ articleId = 1, userId, on
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
                     <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
                   </svg>
-                  <span>{article.readTime} 分で読めます</span>
+                  <span>{article.readTime} 分</span>
                 </div>
               )}
               {article.tags && article.tags.length > 0 && (
@@ -340,39 +317,160 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ articleId = 1, userId, on
                 </div>
               )}
             </div>
+            
+            {/* アクションボタン */}
+            <div className="grid grid-cols-2 gap-3">
+              <button 
+                onClick={toggleLike}
+                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-colors ${
+                  isLiked 
+                    ? 'bg-red-500 text-white' 
+                    : 'bg-[#e7edf4] hover:bg-red-500 hover:text-white'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d={isLiked 
+                    ? "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32Z"
+                    : "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.69,146.26,196.16,128,206.8Z"
+                  }></path>
+                </svg>
+                <span className="text-sm font-medium">いいね ({likeCount})</span>
+              </button>
+              
+              <button 
+                onClick={handleShare}
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#e7edf4] hover:bg-primary hover:text-white transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M237.66,117.66l-80,80A8,8,0,0,1,144,192V152H64a8,8,0,0,1,0-16h80V96a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,237.66,117.66Z"></path>
+                </svg>
+                <span className="text-sm font-medium">シェア</span>
+              </button>
+              
+              <button 
+                onClick={toggleReadLater}
+                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-colors ${
+                  isReadLater 
+                    ? 'bg-orange-500 text-white' 
+                    : 'border border-[#e7edf4] hover:bg-orange-500 hover:text-white hover:border-orange-500'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                </svg>
+                <span className="text-sm font-medium">あとで見る</span>
+              </button>
+              
+              <button 
+                onClick={toggleBookmark}
+                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-colors ${
+                  isBookmarked 
+                    ? 'bg-primary text-white' 
+                    : 'border border-[#e7edf4] hover:bg-primary hover:text-white hover:border-primary'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d={isBookmarked 
+                    ? "M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.76,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"
+                    : "M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.76,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.76-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"
+                  }></path>
+                </svg>
+                <span className="text-sm font-medium">ブックマーク</span>
+              </button>
+            </div>
           </div>
           
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={toggleReadLater}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                isReadLater 
-                  ? 'bg-orange-500 text-white' 
-                  : 'border border-[#e7edf4] hover:bg-orange-500 hover:text-white hover:border-orange-500'
-              }`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
-              </svg>
-              {isReadLater ? 'あとで見る済み' : 'あとで見る'}
-            </button>
+          {/* デスクトップレイアウト */}
+          <div className="hidden lg:flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={toggleLike}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                  isLiked 
+                    ? 'bg-red-500 text-white' 
+                    : 'bg-[#e7edf4] hover:bg-red-500 hover:text-white'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d={isLiked 
+                    ? "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32Z"
+                    : "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.69,146.26,196.16,128,206.8Z"
+                  }></path>
+                </svg>
+                いいね ({likeCount})
+              </button>
+              
+              <button 
+                onClick={handleShare}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#e7edf4] hover:bg-primary hover:text-white transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M237.66,117.66l-80,80A8,8,0,0,1,144,192V152H64a8,8,0,0,1,0-16h80V96a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,237.66,117.66Z"></path>
+                </svg>
+                シェア
+              </button>
+              
+              {/* 統計情報 */}
+              <div className="flex items-center gap-4 text-sm text-[#49739c]">
+                <div className="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"></path>
+                  </svg>
+                  <span>{viewCount.toLocaleString()} 閲覧</span>
+                </div>
+                {article.readTime && (
+                  <div className="flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                    </svg>
+                    <span>{article.readTime} 分で読めます</span>
+                  </div>
+                )}
+                {article.tags && article.tags.length > 0 && (
+                  <div className="flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68A16,16,0,0,0,243.31,136Zm-96,96L48,132.69V48h84.69L232,147.31ZM96,84A12,12,0,1,1,84,72,12,12,0,0,1,96,84Z"></path>
+                    </svg>
+                    <span>{article.tags.slice(0, 2).map(tag => `#${tag}`).join(' ')}</span>
+                    {article.tags.length > 2 && <span>...</span>}
+                  </div>
+                )}
+              </div>
+            </div>
             
-            <button 
-              onClick={toggleBookmark}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                isBookmarked 
-                  ? 'bg-primary text-white' 
-                  : 'border border-[#e7edf4] hover:bg-primary hover:text-white hover:border-primary'
-              }`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                <path d={isBookmarked 
-                  ? "M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.76,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"
-                  : "M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.76,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.76-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"
-                }></path>
-              </svg>
-              {isBookmarked ? 'ブックマーク済み' : 'ブックマーク'}
-            </button>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={toggleReadLater}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                  isReadLater 
+                    ? 'bg-orange-500 text-white' 
+                    : 'border border-[#e7edf4] hover:bg-orange-500 hover:text-white hover:border-orange-500'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                </svg>
+                {isReadLater ? 'あとで見る済み' : 'あとで見る'}
+              </button>
+              
+              <button 
+                onClick={toggleBookmark}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                  isBookmarked 
+                    ? 'bg-primary text-white' 
+                    : 'border border-[#e7edf4] hover:bg-primary hover:text-white hover:border-primary'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d={isBookmarked 
+                    ? "M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.76,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"
+                    : "M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.76,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.76-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"
+                  }></path>
+                </svg>
+                {isBookmarked ? 'ブックマーク済み' : 'ブックマーク'}
+              </button>
+            </div>
+            </div>
           </div>
         </div>
       </div>

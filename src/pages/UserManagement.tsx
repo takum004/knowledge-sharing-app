@@ -147,7 +147,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ currentUserId }) => {
 
   if (loading) {
     return (
-      <div className="px-40 flex flex-1 justify-center py-5">
+      <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
         <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
@@ -166,12 +166,12 @@ const UserManagement: React.FC<UserManagementProps> = ({ currentUserId }) => {
   const filteredUsers = getFilteredUsers();
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+    <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         
         {/* ページヘッダー */}
         <div className="p-4">
-          <h1 className="text-[32px] font-bold text-[#0d141c] mb-2">
+          <h1 className="text-[24px] md:text-[32px] font-bold text-[#0d141c] mb-2">
             ユーザー管理
           </h1>
           <p className="text-[#49739c] text-sm">
@@ -220,57 +220,123 @@ const UserManagement: React.FC<UserManagementProps> = ({ currentUserId }) => {
           </div>
 
           {/* 統計情報 */}
-          <div className="mt-4 flex gap-4 text-sm text-[#49739c]">
+          <div className="mt-4 flex flex-wrap gap-4 text-sm text-[#49739c]">
             <span>総ユーザー数: <strong className="text-[#0d141c]">{users.length}</strong></span>
             <span>管理者: <strong className="text-red-600">{users.filter(u => u.role === 'admin').length}</strong></span>
             <span>一般ユーザー: <strong className="text-blue-600">{users.filter(u => u.role === 'user').length}</strong></span>
           </div>
         </div>
 
-        {/* ユーザー一覧テーブル */}
-        <div className="bg-white rounded-lg border border-[#e7edf4] overflow-hidden">
+        {/* ユーザー一覧 */}
+        <div>
           {filteredUsers.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-[#f8f9fa] border-b border-[#e7edf4]">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
-                      ユーザー情報
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
-                      役割
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
-                      作成日時
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
-                      操作
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#e7edf4]">
-                  {filteredUsers.map((user) => (
-                    <tr key={user.id} className="hover:bg-[#f8f9fa] transition-colors">
-                      
-                      {/* ユーザー情報 */}
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
-                            {(user.displayName || user.username).charAt(0).toUpperCase()}
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium text-[#0d141c]">
-                              {user.displayName || user.username}
+            <>
+              {/* デスクトップ用テーブル */}
+              <div className="hidden lg:block bg-white rounded-lg border border-[#e7edf4] overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-[#f8f9fa] border-b border-[#e7edf4]">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
+                          ユーザー情報
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
+                          役割
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
+                          作成日時
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-[#49739c] uppercase tracking-wider">
+                          操作
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#e7edf4]">
+                      {filteredUsers.map((user) => (
+                        <tr key={user.id} className="hover:bg-[#f8f9fa] transition-colors">
+                          
+                          {/* ユーザー情報 */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                                {(user.displayName || user.username).charAt(0).toUpperCase()}
+                              </div>
+                              <div>
+                                <div className="text-sm font-medium text-[#0d141c]">
+                                  {user.displayName || user.username}
+                                </div>
+                                <div className="text-xs text-[#49739c]">
+                                  @{user.username}
+                                </div>
+                              </div>
                             </div>
-                            <div className="text-xs text-[#49739c]">
-                              @{user.username}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
+                          </td>
 
-                      {/* 役割 */}
-                      <td className="px-6 py-4">
+                          {/* 役割 */}
+                          <td className="px-6 py-4">
+                            <select
+                              value={user.role}
+                              onChange={(e) => handleRoleChange(user.id, e.target.value as 'admin' | 'user')}
+                              disabled={user.id === currentUserId}
+                              className={`text-xs font-medium px-2 py-1 rounded-full border-0 ${getRoleBadgeStyle(user.role)} ${
+                                user.id === currentUserId ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'
+                              }`}
+                            >
+                              <option value="user">一般ユーザー</option>
+                              <option value="admin">管理者</option>
+                            </select>
+                          </td>
+
+                          {/* 作成日時 */}
+                          <td className="px-6 py-4 text-sm text-[#49739c]">
+                            {formatDate(user.createdAt)}
+                          </td>
+
+                          {/* 操作 */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => setSelectedUser(user)}
+                                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                              >
+                                詳細
+                              </button>
+                              {user.id !== currentUserId && (
+                                <button
+                                  onClick={() => confirmDeleteUser(user.id)}
+                                  className="text-red-600 hover:text-red-800 text-sm font-medium ml-2"
+                                >
+                                  削除
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              {/* モバイル・タブレット用カード */}
+              <div className="lg:hidden space-y-4">
+                {filteredUsers.map((user) => (
+                  <div key={user.id} className="bg-white rounded-lg border border-[#e7edf4] p-4">
+                    {/* ユーザー情報ヘッダー */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                        {(user.displayName || user.username).charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-base font-medium text-[#0d141c]">
+                          {user.displayName || user.username}
+                        </div>
+                        <div className="text-sm text-[#49739c]">
+                          @{user.username}
+                        </div>
+                      </div>
+                      {/* 役割バッジ */}
+                      <div>
                         <select
                           value={user.role}
                           onChange={(e) => handleRoleChange(user.id, e.target.value as 'admin' | 'user')}
@@ -282,39 +348,44 @@ const UserManagement: React.FC<UserManagementProps> = ({ currentUserId }) => {
                           <option value="user">一般ユーザー</option>
                           <option value="admin">管理者</option>
                         </select>
-                      </td>
-
-                      {/* 作成日時 */}
-                      <td className="px-6 py-4 text-sm text-[#49739c]">
-                        {formatDate(user.createdAt)}
-                      </td>
-
-                      {/* 操作 */}
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => setSelectedUser(user)}
-                            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                          >
-                            詳細
-                          </button>
-                          {user.id !== currentUserId && (
-                            <button
-                              onClick={() => confirmDeleteUser(user.id)}
-                              className="text-red-600 hover:text-red-800 text-sm font-medium ml-2"
-                            >
-                              削除
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </div>
+                    </div>
+                    
+                    {/* 詳細情報 */}
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-[#49739c]">作成日時:</span>
+                        <span className="text-[#0d141c]">{formatDate(user.createdAt)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-[#49739c]">ユーザーID:</span>
+                        <span className="text-[#0d141c] font-mono text-xs">{user.id}</span>
+                      </div>
+                    </div>
+                    
+                    {/* アクションボタン */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setSelectedUser(user)}
+                        className="flex-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
+                      >
+                        詳細表示
+                      </button>
+                      {user.id !== currentUserId && (
+                        <button
+                          onClick={() => confirmDeleteUser(user.id)}
+                          className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
+                        >
+                          削除
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           ) : (
-            <div className="text-center py-12">
+            <div className="bg-white rounded-lg border border-[#e7edf4] text-center py-12">
               <div className="text-[#49739c] mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 256 256" className="mx-auto mb-4">
                   <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>

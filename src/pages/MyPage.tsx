@@ -130,83 +130,82 @@ const MyPage: React.FC<MyPageProps> = ({ userId, onViewArticle, onLogout }) => {
   const currentArticles = activeTab === 'bookmarks' ? bookmarkedArticles : readLaterArticles;
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+    <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         
         {/* ページタイトルとアカウント情報セクション */}
         <div className="p-4">
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h1 className="text-[32px] font-bold text-[#0d141c] mb-2">
-                マイページ
-              </h1>
-              <p className="text-[#49739c] text-sm">
-                ブックマークした記事や後で読む記事を管理できます。
-              </p>
+          {/* ページタイトル */}
+          <div className="mb-6">
+            <h1 className="text-[24px] md:text-[32px] font-bold text-[#0d141c] mb-2">
+              マイページ
+            </h1>
+            <p className="text-[#49739c] text-sm">
+              ブックマークした記事や後で読む記事を管理できます。
+            </p>
+          </div>
+          
+          {/* アカウント情報カード */}
+          <div className="bg-white rounded-lg border border-[#e7edf4] p-4 md:p-6 mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+              <div 
+                className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-16 sm:size-12 mx-auto sm:mx-0"
+                style={{
+                  backgroundImage: 'url("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face")'
+                }}
+              ></div>
+              <div className="text-center sm:text-left flex-1">
+                <h3 className="font-semibold text-[#0d141c] text-lg sm:text-base">
+                  {user?.displayName || user?.username || 'ユーザー'}
+                </h3>
+                <p className="text-sm text-[#49739c] mt-1">
+                  {userRole === 'admin' ? '全ての機能にアクセス可能' : '記事の閲覧・ブックマークが可能'}
+                </p>
+                
+                {/* 権限バッジ */}
+                <div className="mt-2">
+                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                    userRole === 'admin' 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-blue-100 text-blue-800'
+                  }`}>
+                    {userRole === 'admin' ? '管理者権限' : 'ユーザー権限'}
+                  </span>
+                </div>
+              </div>
             </div>
-            
-            {/* アカウント情報カード */}
-            <div className="bg-white rounded-lg border border-[#e7edf4] p-6 min-w-[280px]">
-              <div className="flex items-center gap-4 mb-4">
-                <div 
-                  className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
-                  style={{
-                    backgroundImage: 'url("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&crop=face")'
-                  }}
-                ></div>
-                <div>
-                  <h3 className="font-semibold text-[#0d141c]">
-                    {user?.displayName || user?.username || 'ユーザー'}
-                  </h3>
-                  <p className="text-sm text-[#49739c]">
-                    {userRole === 'admin' ? '全ての機能にアクセス可能' : '記事の閲覧・ブックマークが可能'}
-                  </p>
-                </div>
-              </div>
-              
-              {/* 権限バッジ */}
-              <div className="mb-4">
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                  userRole === 'admin' 
-                    ? 'bg-green-100 text-green-800' 
-                    : 'bg-blue-100 text-blue-800'
-                }`}>
-                  {userRole === 'admin' ? '管理者権限' : 'ユーザー権限'}
-                </span>
-              </div>
 
-              {/* 統計情報 */}
-              <div className="grid grid-cols-2 gap-4 mb-4 text-center">
-                <div className="bg-[#f8fafc] rounded-lg p-3">
-                  <div className="text-lg font-bold text-[#0d141c]">{bookmarkCount}</div>
-                  <div className="text-xs text-[#49739c]">ブックマーク</div>
-                </div>
-                <div className="bg-[#f8fafc] rounded-lg p-3">
-                  <div className="text-lg font-bold text-[#0d141c]">{readLaterCount}</div>
-                  <div className="text-xs text-[#49739c]">あとで見る</div>
-                </div>
+            {/* 統計情報 */}
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="bg-[#f8fafc] rounded-lg p-4 text-center">
+                <div className="text-2xl sm:text-lg font-bold text-[#0d141c]">{bookmarkCount}</div>
+                <div className="text-sm sm:text-xs text-[#49739c] mt-1">ブックマーク</div>
               </div>
-
-              {/* ログアウトボタン */}
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors font-medium"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
-                  <path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L196.69,120H104a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,221.66,122.34Z"></path>
-                </svg>
-                ログアウト
-              </button>
+              <div className="bg-[#f8fafc] rounded-lg p-4 text-center">
+                <div className="text-2xl sm:text-lg font-bold text-[#0d141c]">{readLaterCount}</div>
+                <div className="text-sm sm:text-xs text-[#49739c] mt-1">あとで見る</div>
+              </div>
             </div>
+
+            {/* ログアウトボタン */}
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L196.69,120H104a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,221.66,122.34Z"></path>
+              </svg>
+              ログアウト
+            </button>
           </div>
         </div>
 
         {/* タブナビゲーション */}
         <div className="border-b border-[#cedbe8] px-4">
-          <div className="flex gap-8">
+          <div className="flex gap-4 sm:gap-8 overflow-x-auto">
             <button
               onClick={() => setActiveTab('bookmarks')}
-              className={`pb-3 pt-2 flex items-center gap-2 ${
+              className={`pb-3 pt-2 flex items-center gap-2 whitespace-nowrap flex-shrink-0 ${
                 activeTab === 'bookmarks'
                   ? 'border-b-[3px] border-primary text-[#0d141c] font-bold'
                   : 'text-[#49739c] font-bold hover:text-[#0d141c]'
@@ -249,25 +248,51 @@ const MyPage: React.FC<MyPageProps> = ({ userId, onViewArticle, onLogout }) => {
                     userId={userId}
                     onViewArticle={onViewArticle}
                   />
-                  {/* 追加日時表示 */}
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1 text-xs text-[#49739c]">
-                    {activeTab === 'bookmarks' 
-                      ? `ブックマーク: ${(article as BookmarkedArticle).bookmarkedAt}`
-                      : `追加: ${(article as ReadLaterArticle).addedAt}`
-                    }
+                  
+                  {/* モバイル用アクションバー */}
+                  <div className="md:hidden flex items-center justify-between bg-white border-t border-[#e7edf4] px-4 py-2 rounded-b-lg -mt-1">
+                    <div className="text-xs text-[#49739c]">
+                      {activeTab === 'bookmarks' 
+                        ? `ブックマーク: ${(article as BookmarkedArticle).bookmarkedAt}`
+                        : `追加: ${(article as ReadLaterArticle).addedAt}`
+                      }
+                    </div>
+                    <button 
+                      onClick={() => activeTab === 'bookmarks' 
+                        ? handleRemoveBookmark(article.id) 
+                        : handleRemoveReadLater(article.id)
+                      }
+                      className="flex items-center gap-1 px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                      </svg>
+                      削除
+                    </button>
                   </div>
-                  {/* 削除ボタン */}
-                  <button 
-                    onClick={() => activeTab === 'bookmarks' 
-                      ? handleRemoveBookmark(article.id) 
-                      : handleRemoveReadLater(article.id)
-                    }
-                    className="absolute top-4 right-20 bg-white/90 backdrop-blur-sm rounded-lg p-2 text-[#49739c] hover:text-red-500 hover:bg-red-50 transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
-                      <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-                    </svg>
-                  </button>
+                  
+                  {/* デスクトップ用オーバーレイ */}
+                  <div className="hidden md:block">
+                    {/* 追加日時表示 */}
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1 text-xs text-[#49739c]">
+                      {activeTab === 'bookmarks' 
+                        ? `ブックマーク: ${(article as BookmarkedArticle).bookmarkedAt}`
+                        : `追加: ${(article as ReadLaterArticle).addedAt}`
+                      }
+                    </div>
+                    {/* 削除ボタン */}
+                    <button 
+                      onClick={() => activeTab === 'bookmarks' 
+                        ? handleRemoveBookmark(article.id) 
+                        : handleRemoveReadLater(article.id)
+                      }
+                      className="absolute top-4 right-20 bg-white/90 backdrop-blur-sm rounded-lg p-2 text-[#49739c] hover:text-red-500 hover:bg-red-50 transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

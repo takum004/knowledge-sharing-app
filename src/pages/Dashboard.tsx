@@ -168,12 +168,12 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
   };
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+    <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         
         {/* ページヘッダー */}
         <div className="p-4">
-          <h1 className="text-[32px] font-bold text-[#0d141c] mb-2">
+          <h1 className="text-[24px] md:text-[32px] font-bold text-[#0d141c] mb-2">
             ダッシュボード
           </h1>
           <p className="text-[#49739c] text-sm">
@@ -182,7 +182,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
         </div>
 
         {/* 統計カード */}
-        <div className="grid grid-cols-4 gap-4 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
           <div className="bg-white rounded-lg p-6 border border-[#e7edf4] hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
@@ -241,7 +241,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
         </div>
 
         {/* コンテンツエリア */}
-        <div className="grid grid-cols-3 gap-6 p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4">
           
           {/* 最近の活動 */}
           <div className="bg-white rounded-lg border border-[#e7edf4] p-6">
@@ -346,7 +346,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
         <div className="p-4">
           <div className="bg-white rounded-lg border border-[#e7edf4] p-6">
             <h3 className="text-lg font-bold text-[#0d141c] mb-4">今月の統計</h3>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary mb-2">
                   {stats.monthlyViews.toLocaleString()}

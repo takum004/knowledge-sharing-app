@@ -384,7 +384,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ mode = 'create', articleI
   };
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+    <div className="px-4 md:px-8 lg:px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         
         {/* ローディング状態 */}
@@ -401,50 +401,60 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ mode = 'create', articleI
         )}
         
         {/* ページヘッダー */}
-        <div className="flex items-center justify-between p-4">
-          <div>
-            <h1 className="text-[32px] font-bold text-[#0d141c] mb-2">
-              {mode === 'create' ? '新しい記事を作成' : '記事を編集'}
-            </h1>
-            <p className="text-[#49739c] text-sm">
-              記事の内容を入力して、下書き保存または公開してください。
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={saveDraft}
-              disabled={isSaving || isLoading}
-              className="px-6 py-3 rounded-lg border border-[#e7edf4] text-[#49739c] font-medium hover:bg-[#f8fafc] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              {isSaving ? (
-                <>
-                  <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  保存中...
-                </>
-              ) : (
-                mode === 'edit' ? '更新' : '下書き保存'
-              )}
-            </button>
-            <button 
-              onClick={publishArticle}
-              disabled={isSaving || isLoading}
-              className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              {isSaving ? (
-                <>
-                  <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  公開中...
-                </>
-              ) : (
-                mode === 'edit' ? '更新・公開' : '公開する'
-              )}
-            </button>
+        <div className="p-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h1 className="text-[24px] md:text-[32px] font-bold text-[#0d141c] mb-2">
+                {mode === 'create' ? '新しい記事を作成' : '記事を編集'}
+              </h1>
+              <p className="text-[#49739c] text-sm">
+                記事の内容を入力して、下書き保存または公開してください。
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <button 
+                onClick={saveDraft}
+                disabled={isSaving || isLoading}
+                className="px-4 md:px-6 py-3 rounded-lg border border-[#e7edf4] text-[#49739c] font-medium hover:bg-[#f8fafc] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm md:text-base"
+              >
+                {isSaving ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span className="hidden sm:inline">保存中...</span>
+                    <span className="sm:hidden">保存中</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="hidden sm:inline">{mode === 'edit' ? '更新' : '下書き保存'}</span>
+                    <span className="sm:hidden">{mode === 'edit' ? '更新' : '下書き'}</span>
+                  </>
+                )}
+              </button>
+              <button 
+                onClick={publishArticle}
+                disabled={isSaving || isLoading}
+                className="bg-primary text-white px-4 md:px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm md:text-base"
+              >
+                {isSaving ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span className="hidden sm:inline">公開中...</span>
+                    <span className="sm:hidden">公開中</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="hidden sm:inline">{mode === 'edit' ? '更新・公開' : '公開する'}</span>
+                    <span className="sm:hidden">{mode === 'edit' ? '公開' : '公開'}</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -483,7 +493,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ mode = 'create', articleI
           </div>
 
           {/* カテゴリとタグ */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* カテゴリ選択 */}
             <div className="bg-white rounded-lg border border-[#e7edf4] p-6">
@@ -586,7 +596,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ mode = 'create', articleI
           </div>
 
           {/* 著者、読了時間、投稿日付 */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* 著者入力 */}
             <div className="bg-white rounded-lg border border-[#e7edf4] p-6">
@@ -733,48 +743,49 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ mode = 'create', articleI
             </label>
             
             {/* Wiki記法ツールバー */}
-            <div className="wiki-toolbar">
-              <span className="text-xs font-medium text-gray-600">テンプレート挿入:</span>
-              <button
-                type="button"
-                onClick={() => insertTemplate('table')}
-                className="wiki-toolbar-button"
-                title="テーブルを挿入"
-              >
-                📊 表
-              </button>
-              <button
-                type="button"
-                onClick={() => insertTemplate('codeBlock')}
-                className="wiki-toolbar-button"
-                title="コードブロックを挿入"
-              >
-                💻 コード
-              </button>
-              <button
-                type="button"
-                onClick={() => insertTemplate('inlineCode')}
-                className="wiki-toolbar-button"
-                title="インラインコードを挿入"
-              >
-                📝 コード(行内)
-              </button>
-              <div className="wiki-toolbar-separator"></div>
-              <button
-                type="button"
-                onClick={() => insertTemplate('combined')}
-                className="wiki-toolbar-button"
-                title="サンプル（API仕様書）を挿入"
-              >
-                📋 サンプル
-              </button>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-3 p-3 bg-[#f8fafc] rounded-lg">
+              <span className="text-xs font-medium text-gray-600 whitespace-nowrap">テンプレート挿入:</span>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => insertTemplate('table')}
+                  className="px-3 py-1 text-xs bg-white border border-[#e7edf4] rounded-md hover:bg-gray-50 transition-colors"
+                  title="テーブルを挿入"
+                >
+                  📊 表
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertTemplate('codeBlock')}
+                  className="px-3 py-1 text-xs bg-white border border-[#e7edf4] rounded-md hover:bg-gray-50 transition-colors"
+                  title="コードブロックを挿入"
+                >
+                  💻 コード
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertTemplate('inlineCode')}
+                  className="px-3 py-1 text-xs bg-white border border-[#e7edf4] rounded-md hover:bg-gray-50 transition-colors"
+                  title="インラインコードを挿入"
+                >
+                  📝 行内
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertTemplate('combined')}
+                  className="px-3 py-1 text-xs bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+                  title="サンプル（API仕様書）を挿入"
+                >
+                  📋 サンプル
+                </button>
+              </div>
             </div>
             
             <div className="mb-3">
-              <p className="text-xs text-[#49739c]">
-                <strong>Backlog Wiki記法が使用できます：</strong><br/>
-                • <code>||ヘッダー||</code> <code>|データ|</code> テーブル<br/>
-                • <code>{'{code:言語}コード{/code}'}</code> コードブロック<br/>
+              <p className="text-xs text-[#49739c] leading-relaxed">
+                <strong>以下の形式が使用できます：</strong><br/>
+                • <code className="break-all">||ヘッダー||</code> <code>|データ|</code> テーブル<br/>
+                • <code className="break-all">{'{code:言語}コード{/code}'}</code> コードブロック<br/>
                 • <code>&code(コード);</code> インラインコード<br/>
                 • <code># ## ###</code> 見出し、<code>- </code> リスト、<code>**太字**</code>
               </p>
@@ -805,7 +816,7 @@ const users = await response.json();
 
 実装時は &code(try-catch); を使用してエラーハンドリングを行ってください。`}
               rows={20}
-              className="w-full px-4 py-3 border border-[#e7edf4] rounded-b-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-[#0d141c] font-mono text-sm leading-relaxed resize-y"
+              className="w-full px-4 py-3 border border-[#e7edf4] rounded-b-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-[#0d141c] font-mono text-xs md:text-sm leading-relaxed resize-y"
             />
             <div className="mt-2 text-xs text-[#49739c]">
               文字数: {content.length}
@@ -815,13 +826,13 @@ const users = await response.json();
           {/* プレビューセクション */}
           {content && (
             <div className="bg-white rounded-lg border border-[#e7edf4] p-6">
-              <h3 className="text-lg font-bold text-[#0d141c] mb-4">📋 Backlog Wiki記法プレビュー</h3>
+              <h3 className="text-lg font-bold text-[#0d141c] mb-4">📋 記法プレビュー</h3>
               <div 
                 className="backlog-preview border border-gray-200 rounded-lg p-4 min-h-[200px] bg-gray-50"
                 dangerouslySetInnerHTML={{ __html: getPreviewHtml() }}
               />
               <div className="mt-3 text-xs text-[#49739c]">
-                💡 上記がBacklog Wiki記法に基づいて変換された結果です
+                💡 上記が記法に基づいて変換された結果です
               </div>
             </div>
           )}
